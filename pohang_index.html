@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>최대 50만 원 지원 | LG유플러스 체인지 페스티벌</title>
     <meta name="description" content="포항 산단 임직원 대상 특별 프로모션. 정부24 서류 가이드 및 혜택 확인">
-    <!-- Tailwind CSS (스타일링 프레임워크) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Roboto for Numbers, Noto Sans KR for Text) -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Roboto:wght@500;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -15,7 +15,7 @@
             theme: {
                 extend: {
                     colors: {
-                        'lgu-magenta': '#E6007E', // LG U+ Brand Color
+                        'lgu-magenta': '#E6007E',
                         'lgu-dark': '#1A1A1A',
                     },
                     fontFamily: {
@@ -27,11 +27,8 @@
         }
     </script>
     <style>
-        /* 커스텀 스타일 */
         body { font-family: 'Noto Sans KR', sans-serif; word-break: keep-all; }
         .font-number { font-family: 'Roboto', sans-serif; }
-        
-        /* 굵은 회색 구분선 */
         .thick-divider { border-top: 12px solid #F3F4F6; }
         
         /* 체크박스 커스텀 */
@@ -40,6 +37,10 @@
             border-color: #E6007E;
             background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
         }
+
+        /* 인트로 오버레이 애니메이션 */
+        #intro-overlay { transition: opacity 0.5s ease-out, visibility 0.5s; }
+        .fade-out { opacity: 0; visibility: hidden; }
 
         /* 아코디언 애니메이션 */
         details > summary { list-style: none; }
@@ -51,12 +52,28 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* 혜택 섹션 비활성 효과 */
         .benefit-blur { filter: blur(4px); opacity: 0.7; pointer-events: none; transition: all 0.5s; }
         .benefit-active { filter: blur(0); opacity: 1; pointer-events: auto; }
     </style>
 </head>
-<body class="bg-white text-gray-800 pb-24">
+<body class="bg-white text-gray-800 pb-24 overflow-x-hidden">
+
+    <!-- 🎬 [NEW] Video Intro Overlay -->
+    <div id="intro-overlay" class="fixed inset-0 z-[60] bg-black flex items-center justify-center">
+        <!-- 
+            [동영상 파일 안내]
+            같은 폴더에 'pohangucf2.mp4' 파일이 있어야 합니다.
+            muted playsinline: 모바일 자동재생 필수 옵션
+        -->
+        <video id="intro-video" class="w-full h-full object-cover" autoplay muted playsinline>
+            <source src="pohangucf2.mp4" type="video/mp4">
+        </video>
+        
+        <!-- 건너뛰기 버튼 -->
+        <button onclick="closeIntro()" class="absolute top-5 right-5 bg-black bg-opacity-50 text-white text-sm px-4 py-2 rounded-full border border-white border-opacity-30 backdrop-blur-sm hover:bg-opacity-70 transition z-[70]">
+            건너뛰기 ⏩
+        </button>
+    </div>
 
     <!-- Header -->
     <header class="w-full h-14 bg-white border-b flex items-center justify-between px-5 sticky top-0 z-40 shadow-sm">
@@ -64,12 +81,9 @@
         <div class="text-xs text-gray-500 border border-gray-300 rounded px-2 py-1">포항 산단 전용</div>
     </header>
 
-    <!-- Hero Section (Updated with Image) -->
+    <!-- Hero Section -->
     <section class="w-full bg-white">
-        <!-- 
-            [이미지 적용 안내] 
-            이 HTML 파일과 동일한 폴더에 '포항유체페_파트너.jpg' 파일이 있어야 합니다. 
-        -->
+        <!-- 메인 배너 이미지 (포항유체페_파트너.jpg) -->
         <img src="포항유체페_파트너.jpg" alt="포항 산업단지 임직원과 가족 대상, 쓰던 폰 그대로 유심만 변경해도 최대 50만원 지급" class="w-full h-auto object-cover block">
     </section>
 
@@ -92,26 +106,35 @@
         <h2 class="text-2xl font-bold mb-6 text-center">
             지금 신청하면<br>쏟아지는 <span class="text-lgu-magenta">현금 혜택</span>
         </h2>
+
+        <!-- S26 Pre-order Special Section -->
+        <div class="rounded-xl shadow-lg mb-8 relative overflow-hidden transform transition hover:scale-[1.02] cursor-pointer" onclick="scrollToForm()">
+            <!-- S26 배너 (S26사전예약1.jpg) -->
+            <img src="S26사전예약1.jpg" alt="S26 지금 사전예약 시작! 최대 80만원 할인" class="w-full h-auto object-cover block">
+        </div>
+
         <div class="grid grid-cols-1 gap-6">
-            <!-- Benefit 1 -->
+            <!-- Benefit 1: USIM -->
             <div class="bg-white border rounded-xl overflow-hidden shadow-lg">
-                <div class="h-40 bg-yellow-100 flex items-center justify-center relative">
-                    <span class="text-6xl">💰</span>
+                <div class="h-40 bg-gray-50 flex items-center justify-center relative">
+                    <!-- 유심 이미지 (유심이미지2.jpg) -->
+                    <img src="유심이미지2.jpg" alt="LG U+ 유심 카드" class="h-full w-full object-contain p-4">
                     <div class="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">HOT</div>
                 </div>
                 <div class="p-5">
-                    <h3 class="font-bold text-lg mb-1">번호이동 지원금</h3>
+                    <h3 class="font-bold text-lg mb-1">USIM만 번호이동해도</h3>
                     <p class="text-lgu-magenta font-number text-3xl font-bold">500,000원</p>
                     <p class="text-xs text-gray-500 mt-2">* 최대 지원 기준 (요금제 별 상이)</p>
                 </div>
             </div>
-            <!-- Benefit 2 -->
+            <!-- Benefit 2: Combination -->
             <div class="bg-white border rounded-xl overflow-hidden shadow-sm">
-                 <div class="h-32 bg-blue-50 flex items-center justify-center">
-                    <span class="text-5xl">👨‍👩‍👧‍👦</span>
+                 <div class="h-40 bg-gray-50 flex items-center justify-center relative">
+                    <!-- 결합 혜택 이미지 (결합혜택.jpg) -->
+                    <img src="결합혜택.jpg" alt="인터넷 결합 혜택" class="h-full w-full object-contain p-4">
                 </div>
                 <div class="p-4">
-                    <h3 class="font-bold text-base">가족 결합 추가 할인</h3>
+                    <h3 class="font-bold text-base">인터넷 신규 결합시 100만원 더!</h3>
                     <p class="text-gray-600 text-sm mt-1">인터넷 + TV 결합 시 매월 요금 할인</p>
                 </div>
             </div>
@@ -137,7 +160,6 @@
         <div id="content-doc1" class="doc-content">
             <div class="bg-gray-50 rounded-xl p-4 mb-4">
                 <div class="flex items-center mb-3">
-                    <!-- Government24 Logo Placeholder -->
                     <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xs mr-2">GOV</div>
                     <span class="font-bold text-sm">정부24 앱(App) 기준</span>
                 </div>
@@ -147,19 +169,12 @@
                     <li>발급하기 버튼 터치 후 <span class="font-bold">PDF 저장</span></li>
                 </ol>
             </div>
-            <!-- Lightbox Trigger Image -->
-            <div class="relative cursor-pointer group" onclick="openLightbox('https://fakeimg.pl/600x800/f3f4f6/909090?text=Guide+Image+1&font=noto')">
-                <img src="https://fakeimg.pl/600x800/f3f4f6/909090?text=Guide+Image+1&font=noto" alt="건강보험자격득실확인서 발급 가이드" class="w-full rounded-lg border border-gray-200">
-                <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition flex items-center justify-center">
-                    <span class="bg-black bg-opacity-60 text-white text-xs px-3 py-1 rounded-full opacity-80">👆 터치하여 확대</span>
-                </div>
-            </div>
             <a href="https://m.gov.kr/" target="_blank" class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-bold mt-4 hover:bg-blue-700 transition">
                 정부24 앱 바로가기
             </a>
         </div>
 
-        <!-- Tab Content 2 (Hidden by default) -->
+        <!-- Tab Content 2 -->
         <div id="content-doc2" class="doc-content hidden">
             <div class="bg-gray-50 rounded-xl p-4 mb-4">
                  <div class="flex items-center mb-3">
@@ -171,12 +186,6 @@
                     <li>검색창에 <span class="font-bold text-blue-600">'가족관계'</span> 검색</li>
                     <li>본인 기준 발급 및 <span class="font-bold">상세(주민번호 뒷자리 포함)</span> 선택</li>
                 </ol>
-            </div>
-             <div class="relative cursor-pointer group" onclick="openLightbox('https://fakeimg.pl/600x800/f3f4f6/909090?text=Guide+Image+2&font=noto')">
-                <img src="https://fakeimg.pl/600x800/f3f4f6/909090?text=Guide+Image+2&font=noto" alt="가족관계증명서 발급 가이드" class="w-full rounded-lg border border-gray-200">
-                 <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition flex items-center justify-center">
-                    <span class="bg-black bg-opacity-60 text-white text-xs px-3 py-1 rounded-full opacity-80">👆 터치하여 확대</span>
-                </div>
             </div>
             <a href="https://m.gov.kr/" target="_blank" class="block w-full bg-blue-600 text-white text-center py-3 rounded-lg font-bold mt-4 hover:bg-blue-700 transition">
                 정부24 앱 바로가기
@@ -262,6 +271,7 @@
             <div>
                  <label class="block text-sm font-bold text-gray-700 mb-1">현재 통신사</label>
                  <select id="input-carrier" class="w-full border border-gray-300 rounded-lg px-4 py-3 bg-white focus:outline-none focus:border-lgu-magenta">
+                     <option>LG U+</option>
                      <option>SKT</option>
                      <option>KT</option>
                      <option>알뜰폰</option>
@@ -295,21 +305,14 @@
 
     <!-- Sticky Bottom Bar -->
     <div id="sticky-bar" class="fixed bottom-0 left-0 w-full bg-white border-t shadow-[0_-4px_10px_rgba(0,0,0,0.1)] z-50 px-4 py-3 flex items-center justify-between safe-area-bottom">
-        <a href="#" class="flex flex-col items-center justify-center text-gray-600 px-2 min-w-[70px]">
+        <a href="https://www.daangn.com/kr/local-profile/fdt7xwzms3ep/" target="_blank" class="flex flex-col items-center justify-center text-gray-600 px-2 min-w-[70px]">
             <span class="text-xl">🥕</span>
-            <span class="text-[10px] font-bold mt-1">당근 후기</span>
+            <span class="text-[10px] font-bold mt-1">당근 홈페이지</span>
         </a>
         <button onclick="scrollToForm()" class="flex-1 bg-lgu-magenta text-white font-bold rounded-lg py-3 ml-2 flex items-center justify-center shadow-md active:scale-95 transition-transform">
             <span class="text-xl mr-2">🎁</span>
             상담 신청하기
         </button>
-    </div>
-
-    <!-- Lightbox Modal -->
-    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden flex items-center justify-center p-4" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="확대 이미지" class="max-w-full max-h-[80vh] rounded-lg shadow-2xl">
-        <button class="absolute top-5 right-5 text-white text-3xl font-bold">&times;</button>
-        <p class="absolute bottom-10 text-white text-sm opacity-80">빈 공간을 터치하면 닫힙니다.</p>
     </div>
 
     <!-- Success Modal -->
@@ -318,7 +321,7 @@
             <div class="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center text-3xl mx-auto mb-4">
                 ✓
             </div>
-            <h3 class="text-xl font-bold mb-2">신청이 완료되었습니다!</h3>
+            <h3 class="text-xl font-bold mb-2">문자 앱으로 연결됩니다</h3>
             <p class="text-gray-500 text-sm mb-6">문자 앱이 실행되면<br><span class="font-bold text-lgu-magenta">[전송]</span> 버튼을 꼭 눌러주세요.</p>
             <button onclick="closeSuccessModal()" class="w-full bg-lgu-magenta text-white font-bold py-3 rounded-lg">확인</button>
         </div>
@@ -331,58 +334,55 @@
 
     <!-- Scripts -->
     <script>
+        // --- [NEW] Intro Video Logic ---
+        const introVideo = document.getElementById('intro-video');
+        const introOverlay = document.getElementById('intro-overlay');
+
+        function closeIntro() {
+            // 페이드 아웃 효과
+            introOverlay.classList.add('fade-out');
+            
+            // 영상 정지 (소리 겹침 방지)
+            setTimeout(() => {
+                introVideo.pause();
+                introOverlay.style.display = 'none'; // DOM에서 숨김 처리
+            }, 500); // CSS transition 시간과 동일하게 설정
+        }
+
+        // 영상이 끝나면 자동으로 닫기
+        introVideo.addEventListener('ended', closeIntro);
+        // -------------------------------
+
         // 1. Tab Switching Logic
         function switchTab(tabId) {
-            // Hide all content
             document.querySelectorAll('.doc-content').forEach(el => el.classList.add('hidden'));
-            // Reset tab styles
             document.getElementById('tab-doc1').className = "flex-1 pb-3 text-gray-400 font-medium transition-colors";
             document.getElementById('tab-doc2').className = "flex-1 pb-3 text-gray-400 font-medium transition-colors";
             
-            // Show selected content
             document.getElementById('content-' + tabId).classList.remove('hidden');
-            // Highlight selected tab
             document.getElementById('tab-' + tabId).className = "flex-1 pb-3 text-lgu-magenta border-b-2 border-lgu-magenta font-bold transition-colors";
         }
 
-        // 2. Lightbox Logic
-        function openLightbox(imgSrc) {
-            const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            lightboxImg.src = imgSrc;
-            lightbox.classList.remove('hidden');
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.add('hidden');
-        }
-
-        // 3. Anchor Scroll Logic
+        // 2. Anchor Scroll Logic
         function scrollToForm() {
             const formSection = document.getElementById('form-section');
             formSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // 4. Form Submission (Send SMS)
+        // 3. Form Submission (Send SMS)
         const form = document.getElementById('consulting-form');
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get values
             const name = document.getElementById('input-name').value;
             const phone = document.getElementById('input-phone').value;
             const carrier = document.getElementById('input-carrier').value;
-            
-            // Construct SMS
             const targetNumber = '010-8080-3423';
             const message = `[포항유플러스 상담신청]\n이름: ${name}\n연락처: ${phone}\n현재통신사: ${carrier}`;
             
-            // Determine Mobile OS for SMS Link Format
             const ua = navigator.userAgent.toLowerCase();
             let smsUrl = `sms:${targetNumber}`;
             
-            // iOS usually prefers &body=, Android ?body=
-            // Standard is ?body=, but trying to cover bases
             if(ua.indexOf("iphone") > -1 || ua.indexOf("ipad") > -1) {
                 smsUrl += `&body=${encodeURIComponent(message)}`;
             } else {
@@ -395,14 +395,11 @@
             submitBtn.disabled = true;
 
             setTimeout(() => {
-                // Open SMS App
                 window.location.href = smsUrl;
-
                 document.getElementById('success-modal').classList.remove('hidden');
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
                 form.reset();
-                isFormSubmitted = true; // Prevent exit intent
             }, 1000);
         });
 
@@ -410,7 +407,7 @@
             document.getElementById('success-modal').classList.add('hidden');
         }
 
-        // 5. Self-Diagnosis Check Logic
+        // 4. Self-Diagnosis Check Logic
         const checkbox = document.getElementById('employee-check');
         const benefitsSection = document.getElementById('benefits-section');
         const toastCheck = document.getElementById('toast-check');
@@ -426,31 +423,16 @@
             }
         });
 
-        // Scroll Observer to show toast if not checked
         window.addEventListener('scroll', function() {
             const rect = benefitsSection.getBoundingClientRect();
-            // If benefits section is in view, not checked, and toast hasn't shown yet
             if (rect.top < window.innerHeight && rect.bottom >= 0 && !checkbox.checked && !hasShownToast) {
                 toastCheck.classList.remove('hidden');
                 setTimeout(() => {
                     toastCheck.classList.add('hidden');
-                }, 3000); // Hide after 3 seconds
+                }, 3000);
                 hasShownToast = true;
             }
         });
-
-        // 6. Exit Intent (Window Close/Back)
-        let isFormSubmitted = false;
-        
-        // Note: Modern browsers restrict custom messages in beforeunload
-        window.onbeforeunload = function(e) {
-            if (!isFormSubmitted) {
-                e.preventDefault(); 
-                e.returnValue = ''; // Chrome requires returnValue to be set
-                return '이 페이지에서 나가시겠습니까? 혜택 신청이 완료되지 않았습니다.';
-            }
-        };
-
     </script>
 </body>
 </html>
